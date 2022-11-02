@@ -1,0 +1,123 @@
+{
+    "type": "object",
+     "properties": {
+        "id": {"type": ["null", "string"]},
+        "url": {"type": ["null", "string"]},
+        "name": {"type": ["null", "string"]},
+        "season": {"type": ["null", "string"]},
+        "number": {"type": ["null", "string"]},
+        "type": {"type": ["null", "string"]},
+        "airdate": {"type": ["null", "string"]},
+        "airtime": {"type": ["null", "string"]},
+        "airstamp": {"type": ["null", "string"]},
+        "runtime": {"type": ["null", "string"]},
+        "rating": {
+            "type":"object",
+            "properties": {
+                "average": {"type": ["null", "string"]}
+            }            
+        },
+        "image": {"type": ["null", "string"]},
+        "summary": {"type": ["null", "string"]},
+        "show": {
+            "type":"object",
+            "properties":{
+                "id":  {"type": ["null", "string"]},
+                "url":  {"type": ["null", "string"]},
+                "name":  {"type": ["null", "string"]},
+                "type":  {"type": ["null", "string"]},
+                "language":  {"type": ["null", "string"]},
+                "genres": {
+                    "type":"array",
+                    "items":{"type":["null", "string"]}                    
+                },
+                "status":  {"type": ["null", "string"]},
+                "runtime":  {"type": ["null", "string"]},
+                "averageRuntime":  {"type": ["null", "string"]},
+                "premiered":  {"type": ["null", "string"]},
+                "ended":  {"type": ["null", "string"]},
+                "officialSite":  {"type": ["null", "string"]},
+                "schedule": {
+                    "type":"object",
+                    "properties": {
+                        "time": {"type": ["null", "string"]},
+                        "days": {
+                            "type": "array",
+                            "items":{"type":["null", "string"]}  
+                        }                             
+                    }
+                },
+                "rating": {
+                    "type":"object",
+                    "properties": {
+                        "average": {"type": ["null", "string"]}
+                    }
+                },
+                "weight": {"type": ["null", "string"]},
+                "network": {
+                    "type":"object",
+                    "properties": {
+                        "id": {"type": ["null", "string"]},
+                        "name": {"type": ["null", "string"]},
+                        "country": {
+                            "type":"object",
+                            "properties": {
+                                "name": {"type": ["null", "string"]},
+                                "code": {"type": ["null", "string"]},
+                                "timezone": {"type": ["null", "string"]}
+                            }
+                        },
+                        "officialSite": {"type": ["null", "string"]}
+                    }
+                },
+                "webChannel":  {"type": ["null", "string"]},
+                "dvdCountry": {"type": ["null", "string"]},
+                "externals": {
+                    "type":"object",
+                    "properties": {
+                        "tvrage": {"type": ["null", "string"]},
+                        "thetvdb": {"type": ["null", "string"]},
+                        "imdb": {"type": ["null", "string"]}
+                    }
+                },
+                "image": {
+                    "type":"object",
+                    "properties": {
+                        "medium": {"type": ["null", "string"]},
+                        "original": {"type": ["null", "string"]}
+                    }
+                },
+                "summary": {"type": ["null", "string"]},
+                "updated": {"type": ["null", "string"]},
+                "_links": {
+                    "type":"object",
+                    "properties": {
+                        "self": {
+                            "type":"object",
+                            "properties": {
+                                "href": {"type": ["null", "string"]}
+                            }
+                        },
+                        "previousepisode": {
+                            "type":"object",
+                            "properties": {
+                                "href": {"type": ["null", "string"]}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "_links": {
+            "type":"object",
+            "properties": {
+                "self": {
+                    "type":"object",
+                    "properties": {
+                        "href": {"type": ["null", "string"]}
+                    }
+                }
+            }
+        }
+    }
+}

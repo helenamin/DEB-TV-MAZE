@@ -1,0 +1,13 @@
+{
+  "streams": [
+    {
+      "stream": {
+        "name": "tv_maze",
+        "supported_sync_modes": ["full_refresh", "incremental"],
+        "json_schema": {}
+      },
+      "sync_mode": "full_refresh",
+      "destination_sync_mode": "overwrite"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+documentationUrl: https://www.tvmaze.com/api
+connectionSpecification:
+  $schema: http://json-schema.org/draft-07/schema#
+  title: Tv Maze Spec
+  type: object
+  required:
+    - country
+    - start_date
+  properties:
+    # 'TODO: This schema defines the configuration required for the source. This usually involves metadata such as database and/or authentication information.':
+    country:
+      type: string
+      description: The ISO country code
+      examples:
+        - US
+        - GB
+    start_date:
+      type: string
+      description: The date of airing
+      pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
+      examples:
+        - "2014-12-01"
