@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: episode_staging
+    columns:
+      - name: episode_name
+        tests:
+          - not_null
+      - name: show_id
+        tests:             
+          - relationships:
+              to: ref('tvshow_staging')
+              field: show_id
+      - name: network_id
+        tests:             
+          - relationships:
+              to: ref('network_staging')
+              field: network_id

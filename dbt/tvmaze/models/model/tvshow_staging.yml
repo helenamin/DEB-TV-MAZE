@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: tvshow_staging
+    columns:
+      - name: language
+        tests:
+          - accepted_values:
+              values: ['English']
+      - name: show_id
+        tests:             
+          - relationships:
+              to: ref('episode_staging')
+              field: show_id
+      - name: avg_runtime_in_min
+        tests:
+          - avg_runtime_in_min_greater_than:
+              var_value: 0
