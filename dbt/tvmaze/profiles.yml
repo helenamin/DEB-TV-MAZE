@@ -1,0 +1,13 @@
+tvmaze:
+  outputs:
+    prod:
+      account: "{{ env_var('DBT_ENV_SECRET_ACCOUNT') }}"
+      database: "{{ env_var('DBT_ENV_SECRET_DATABASE') }}"
+      password: "{{ env_var('DBT_ENV_SECRET_PASSWORD') }}"
+      role: "{{ env_var('DBT_ENV_SECRET_ROLE') }}"
+      schema: "{{ env_var('DBT_ENV_SECRET_SCHEMA') }}"
+      threads: 1
+      type: snowflake
+      user: "{{ env_var('DBT_ENV_SECRET_USER') }}"
+      warehouse: "{{ env_var('DBT_ENV_SECRET_WAREHOUSE') }}"
+  target: prod
