@@ -1,0 +1,22 @@
+version: 2
+
+sources:
+  - name: TVSHOW
+    database: TVSHOW
+    schema: SOURCE
+    tables:
+      - name: TV_MAZE
+      - name: TV_MAZE_RATING
+      - name: TV_MAZE_SCD
+      - name: TV_MAZE_SHOW
+      - name: TV_MAZE_SHOW_EXTERNALS
+      - name: TV_MAZE_SHOW_IMAGE
+      - name: TV_MAZE_SHOW_NETWORK
+      - name: TV_MAZE_SHOW_NETWORK_COUNTRY
+      - name: TV_MAZE_SHOW_RATING
+      - name: TV_MAZE_SHOW_SCHEDULE
+      - name: TV_MAZE_SHOW__LINKS
+      - name: TV_MAZE_SHOW__LINKS_PREVIOUSEPISODE
+      - name: TV_MAZE_SHOW__LINKS_SELF
+      - name: TV_MAZE__LINKS
+      - name: TV_MAZE__LINKS_SELF

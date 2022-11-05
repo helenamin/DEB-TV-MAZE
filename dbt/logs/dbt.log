@@ -1,0 +1,27 @@
+
+
+============================== 2022-11-03 12:07:36.652749 | 138daa51-16f0-4390-927b-a277b74594c9 ==============================
+[0m12:07:36.652749 [info ] [MainThread]: Running with dbt=1.3.0
+[0m12:07:36.653751 [debug] [MainThread]: running dbt with arguments {'write_json': True, 'use_colors': True, 'printer_width': 80, 'version_check': True, 'partial_parse': True, 'static_parser': True, 'profiles_dir': 'C:\\Users\\Luke\\.dbt', 'send_anonymous_usage_stats': True, 'event_buffer_size': 100000, 'quiet': False, 'no_print': False, 'skip_profile_setup': False, 'which': 'init', 'indirect_selection': 'eager'}
+[0m12:07:36.654757 [debug] [MainThread]: Tracking: tracking
+[0m12:07:36.670797 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000124FA362910>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000124FA362490>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000124FA362760>]}
+[0m12:07:50.699869 [debug] [MainThread]: Starter project path: C:\Users\Luke\anaconda3\envs\bootcamp\lib\site-packages\dbt\include\starter_project
+[0m12:14:08.515411 [info ] [MainThread]: Profile tvmaze written to C:\Users\Luke\.dbt\profiles.yml using target's profile_template.yml and your supplied values. Run 'dbt debug' to validate the connection.
+[0m12:14:08.516406 [info ] [MainThread]: 
+Your new dbt project "tvmaze" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m12:14:08.519591 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000124FA356460>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000124FA356730>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000124FA356700>]}
+[0m12:14:08.519591 [debug] [MainThread]: Flushing usage events
