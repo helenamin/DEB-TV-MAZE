@@ -6,7 +6,7 @@ models:
       - name: language
         tests:
           - accepted_values:
-              values: ['English']
+              values: ['English','Portuguese']
       - name: show_id
         tests:             
           - relationships:
