@@ -1,16 +1,8 @@
 import datetime
 import pendulum
-from textwrap import dedent
-import os
-
 from airflow import DAG
-# from airflow import XComArg
-# from airflow.models import Variable
-# from airflow.operators.bash import BashOperator
 from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
 from airflow.providers.amazon.aws.operators.ecs import EcsOperator 
-# from airflow.operators.python import PythonOperator
-# from function.etl import extract, transform, load
 from airflow.providers.slack.operators.slack_webhook import SlackWebhookOperator
 
 with DAG(
