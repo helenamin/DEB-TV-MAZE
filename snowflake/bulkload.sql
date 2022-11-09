@@ -1,4 +1,4 @@
---THIS FILE IS NOT IN SNOWFLAKE YET
+-- THIS FILE IS NOT RUN IN SNOWFLAKE
 
 -- cheat code for convenience
 USE ROLE SECURITYADMIN;
@@ -33,7 +33,6 @@ CREATE OR REPLACE STORAGE INTEGRATION S3_P2
   STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::855833069233:role/snowflake_role_p2'
   STORAGE_ALLOWED_LOCATIONS = ('s3://tvshow-p2/');
   
-
 SHOW INTEGRATIONS;
 
 DESCRIBE INTEGRATION S3_P2;
@@ -49,23 +48,8 @@ USE SCHEMA TVSHOW.UTIL;
 
 CREATE OR REPLACE STAGE S3_TVSHOW_CSV
   STORAGE_INTEGRATION = S3_P2
-  URL = 's3://tvshow-p2/TVSHOW_csv/' --might not need this but we will have this for now
+  URL = 's3://tvshow-p2/TVSHOW_csv/' --Not used due to the implementation with Airbyte
   FILE_FORMAT = TVSHOW.UTIL.CSV_P2;
 
 LIST @TVSHOW.UTIL.S3_TVSHOW_CSV;
 
--- WILL DO WHEN WE HAVE THE SCHEMA AND TABLE NAME
--- copy data
--- CREATE OR REPLACE TABLE TVSHOW.SOURCE.DEPT_EMP
---  (emp_no varchar,
---  dept_no varchar,
---  from_date timestamp,
---  to_date timestamp
---  );
-
-
--- COPY INTO TVSHOW.SOURCE.DEPT_EMP
---   FROM @TVSHOW.UTIL.S3_TVSHOW_CSV/dept_emp.csv;
-
--- -- check
--- SELECT * FROM TVSHOW.SOURCE.DEPT_EMP LIMIT 10;
