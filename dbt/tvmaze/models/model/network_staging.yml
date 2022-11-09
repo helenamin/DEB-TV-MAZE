@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: network_staging
+    columns:
+      - name: network_id
+        tests:             
+          - relationships:
+              to: ref('episode_staging')
+              field: network_id

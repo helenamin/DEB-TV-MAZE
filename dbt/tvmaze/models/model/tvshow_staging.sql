@@ -16,6 +16,7 @@ SELECT
         WHEN tms.genres = '[]' THEN null
         ELSE REPLACE(REPLACE(REPLACE(REPLACE(tms.genres,'[','' ),']',''),'"',''),',',' | ')
     END AS genres,
+    -- {{ clean_string_list('tms.genres') }} as Genres1,
     CAST(tmsr.average AS DOUBLE) AS Rating,
     tms.status,
     CAST(tms.runtime AS INTEGER) AS Runtime_In_Min,
