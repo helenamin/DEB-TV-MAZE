@@ -7,10 +7,10 @@
 <!-- Project Background -->
 
 <h2 id="background">Project Background</h2>
-<figure align="center">
-  <img src="https://media.istockphoto.com/photos/man-watching-tv-lying-on-sofa-legs-on-table-picture-id1331523088?b=1&k=20&m=1331523088&s=170667a&w=0&h=YnmsLqGLdmntesnGiIzBrbhXDxNbHiOzrbudKivWet4=" alt="Watch TV" width="60%" height="60%">        
- 
+<figure>
+  <img src="https://media.istockphoto.com/photos/man-watching-tv-lying-on-sofa-legs-on-table-picture-id1331523088?b=1&k=20&m=1331523088&s=170667a&w=0&h=YnmsLqGLdmntesnGiIzBrbhXDxNbHiOzrbudKivWet4=" align="center" alt="Watch TV" width="60%" height="60%">        
 </figure>
+
 <p align="justify"> 
   TV show data extracted from <a href="https://www.tvmaze.com/">TV Maze API</a> for Data Analyst to identify and visualize trends in TV history 
   and for ML use-case to potentially create shows with AI or suggest shows based on genres and ratings. Once the data are visualised, it can then be
@@ -42,7 +42,7 @@
 
 <hr style="background:#ADD8E6;">
 <!-- WHAT WE USE -->
-<h2 id="Installations">Installations</h2>
+<h2 id="Installations">Installations & Setups</h2>
 
 This project is built with Python version 3.9.
 
@@ -78,21 +78,50 @@ pip install -r requirement.txt
     docker-compose up
     ```
 
-Copy /source-tvmaze into airbyte/airbyte-integrations/connector
+4. Copy /source-tvmaze into airbyte/airbyte-integrations/connector
 
-Run docker-compose up again to update the airbyte connector
+5. Run docker-compose up again to update the airbyte connector
 
-Setup custom TVMaze connector as Airbyte Source
+6. Setup custom TVMaze connector as Airbyte Source
 
-Login into Snowflake and setup Snowflake user roles with the SQL files within the data-integration\snowflake
+7. Login into Snowflake and setup Snowflake user roles with the SQL files within the data-integration\snowflake
 
-Setup Snowflake as Destination and create new connection between Source and Destination in Airbyte 
+8. Setup Snowflake as Destination and create new connection between Source and Destination in Airbyte 
 
-Install dbt-core and its snowflake specific packages `pip install dbt-snowflake`
+9. Install dbt-core and its snowflake specific packages `pip install dbt-snowflake`
 
-Under dbt project folder run `dbt init`. That will create the same folder as the data-transformation/dbt
+10. Under dbt project folder run `dbt init`. That will create the same folder as the data-transformation/dbt
 
-Models can be copied over from the tvmaze folder under data-transformation/dbt and run `dbt build`
+11. Models can be copied over from the tvmaze folder under data-transformation/dbt and run `dbt build`
+
+#### Building a Docker Image and push to ECR
+
+1. Build the Docker Image 
+`docker build -t tvmaze-dbt:dev-f docker/Dockerfile`
+
+2. Tag the Docker Image for AWS 
+`tvmaze-dbt:dev *aws_account_id*.dkr.ecr.*aws_region*.amazonaws.com/tvmaze-dbt-ecr:dev`
+
+3. Login to AWS with CLI 
+`aws ecr get-login-password --region *aws_region* | docker login --username AWS --password-stdin *aws_account_id*.dkr.ecr.*aws_region*.amazonaws.com/tvmaze-dbt-ec`
+
+4. Docker Push 
+`docker push *aws_account_id*.dkr.ecr.*aws_region*.amazonaws.com/tvmaze-dbt-ecr:dev`
+
+
+#### Exporting Airflow connections to JSON
+
+1. Open up Terminal and input 
+`docker exec -it *replace this with the connection id* /bin/.sh`
+
+2. Identify where the "dags" folder in airflow with `ls` and change directory into the folder with `cd dags`
+
+3. Input `airflow connections export conn.json` and verify that the connections are successfully exported to "conn.json"
+
+4. To import the "conn.json" file for airflow, use 
+`airflow connection import conn.json`
+
+
 
 <hr style="background:#ADD8E6;">
 
@@ -228,19 +257,31 @@ For the AirbyteTriggerSyncOperator, we had to setup 2 connection ids for the tas
 
 <h2 id="discussion">Discussion, Lesson Learnt and Future Improvement</h2>
 
-TO BE DISCUSSED ON FRIDAY 11/11
 <p align="justify">
 
 Current iteration Airbyte and dbt docker images are built and pushed onto ECR and task instance created to run the pipeline on EC2 with Airflow running locally on Luke's device.<br>
 <b>Key Learnings and Room for Improvements:</b> 
 <ul> 
-  <li></li>
-  <li></li>
-  <li></li>
-  <li></li>
+ <li>How to pronounce the word Genre
+  <figure> 
+<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/pronouncingGenre.png" alt="Pronouncing Genre" width="100%"> 
+<figcaption>Sounds like "Zhon-Ruh"</figcaption>
+</figure>
+  </li>
+  <li>Learned when Implementing the Airbyte Connector, in the "parse_response" function, 
+  the original codes from class reference the response in square brackets, ours didnt need that as it is already in a json object. </li>
+  <li>When Implementing schemas for custom connector on Airbyte, each objects require a type (as object) and each type would have its own properties that can contain 
+  the "columns" with their own type and properties.</li>
+  <li>When shutting down the EC2 instance for Airbyte , use `sudo service docker status` to check and restart docker if needed.</li>
+  <li><i>"When it's curly braces it's an Object, if it's a square bracket it's a List"</i> - Luke, 2022</li>
+  <li>When creating the custom connector, discovered that a Python Class name cannot be too long. Originally we had TV_MAZE_API as a class and that did not work, had to change it to just TVMAZE</li>
+  <li>When experimenting and working with Airflow, definitely export all connectors first and delete everything that is not the DAG folder to save setup time.</li>
+  <li>Create Airbyte Custom Connector Test and make use of dbt Macros</li>  
+  <li>To improve the ETL notification messages - More unique and cater for failed pipeline.</li>
+  <li>Airbyte connector keeps increasing by the day, did not realised that there is already a TVMaze connector in Alpha, we built one anyways!</li>
+ 
   <li></li>
 </ul>
-
 
 </p>
 
