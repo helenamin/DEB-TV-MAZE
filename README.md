@@ -13,8 +13,8 @@
 
 <p align="justify"> 
   TV show data extracted from <a href="https://www.tvmaze.com/">TV Maze API</a> for Data Analyst to identify and visualize trends in TV history 
-  and for ML use-case to potentially create shows with AI or suggest shows based on genres and ratings. Once the data are visualised, it can then be
-  used by TV show producers to produce better content and potential actors to star in shows that will be popular. Network channels data present to determine what shows to air 
+  and for ML use-case to potentially create shows with AI or suggest shows based on genres and ratings. Once data is visualised, it can then be
+  used by TV show producers to produce better content and potential actors to star in shows that will be popular. Network channels data can help to determine what shows to air 
   and what time would be a success when aired.
 </p>
 </br>
@@ -24,12 +24,11 @@
   <summary><b>Table of Contents</b></summary>
   <ol>
     <li><a href="#background"> Project Background</a></li>
-    <li><a href="#Installations">Installations</a></li>
+    <li><a href="#Installations">Installation & Setup</a></li>
     <li><a href="#folder-structure">Folder Structure</a></li>
     <li><a href="#theprocess">How it's done</a></li>
       <ul>
         <li><a href="#sad">Solution Architecture Diagram</a></li>
-        <li><a href="#dataset">Dataset</a></li>
         <li><a href="#data-int">Data Integration</a></li>
         <li><a href="#data-trans">Data Transformation</a></li>
         <li><a href="#data-ochestration">Data Ochestration</a></li>
@@ -42,7 +41,7 @@
 
 <hr style="background:#ADD8E6;">
 <!-- WHAT WE USE -->
-<h2 id="Installations">Installations & Setups</h2>
+<h2 id="Installations">Installation & Setup</h2>
 
 This project is built with Python version 3.9.
 
@@ -97,7 +96,7 @@ pip install -r requirement.txt
 #### Building a Docker Image and push to ECR
 
 1. Build the Docker Image 
-`docker build -t tvmaze-dbt:dev-f docker/Dockerfile`
+`docker build -t tvmaze-dbt:dev -f docker/Dockerfile`
 
 2. Tag the Docker Image for AWS 
 `tvmaze-dbt:dev *aws_account_id*.dkr.ecr.*aws_region*.amazonaws.com/tvmaze-dbt-ecr:dev`
@@ -153,11 +152,11 @@ Screenshots for AWS ECR image and AWS setup
 <h2 id="theprocess">How it's Done</h2>
 <p> 
 We start off by setting up Airbyte and Snowflake. As we chose the TVMAZE API which does not have a connector in Airbyte, we had to create a custom connector.
-The custom connector is built with incremental refresh on the backend and the front end interface specified on spec.yaml. We have also described the schema  in tv_maze.json.
-This is done through a sampling the data first and the datatypes are determined (STRINGS ALL THE WAY!). We then build the Docker image and upload to AWS ECR and run the instance with EC2.
+The custom connector is built with incremental refresh on the backend and the front end interface specified on spec.yaml. We have also described the schema in tv_maze.json.
+This is done through sampling the json response to get the response structure and datatypes, however for datatypes we went with STRINGS ALL THE WAY!. We then build the Docker image and upload to AWS ECR and run the instance with EC2.
 In Snowflake, we create the Database - TVSHOW to host all the data we will be ingesting. We've also created roles for DBT and Airbyte.
-Once the access are sorted, we created a connector between the Custom TVMaze API as the Source and Snowflake as the Destination. 
-All the response from the data are then ingested into Snowflake's S3 storage and we transformed the data with models via DBT. These are all ochestrated with Airflow with Notification sent through to our project Slack channel.
+Once the access is sorted, we created a connector between the Custom TVMaze API as the Source and Snowflake as the Destination. 
+The source data is then ingested into Snowflake's S3 storage where we transform the data with models via DBT. These are all ochestrated with Airflow with Notification sent through to our project Slack channel.
 
 <hr style="background:#ADD8E6;">
 
@@ -185,16 +184,16 @@ All the response from the data are then ingested into Snowflake's S3 storage and
 
 <h2 id="data-int">Data Integration</h2>
 <p align="justify"> 
-For the data integration, Airbyte was chosen as the tool for performing extract and load, with Snowflake as our datawarehouse. The custom airbyte connector is source connector used to get tv episode schedule data from the <a href= "https://api.tvmaze.com/schedule">tvmaze.com API</a>. The tvmaze connector was developed for incremental extracts. Testing has been done whereby the connector was added as a source in the Airbyte UI and used in a connection successfully extracting from the tvmaze API and loading the raw data to a Snowflake destination.
+For the data integration, Airbyte was chosen as the tool for performing extract and load, with Snowflake as our datawarehouse. The custom airbyte connector is a source connector used to get tv episode schedule data from the <a href= "https://api.tvmaze.com/schedule">tvmaze.com API</a>. The tvmaze connector was developed for incremental extracts. Testing has been done whereby the connector was added as a source in the Airbyte UI and used in a connection successfully extracting from the tvmaze API and loading the raw data to a Snowflake destination.
 <br>
 The next step was to create the datawarehouse in Snowflake and apply all corresponding user permissions to Airbyte and dbt. The full SQL query can be viewed <a href="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/data-integration/snowflake/user_role_grants.sql">here </a>
 <figure> 
-<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/snowflake_permisisons.png" alt="Snowflake Permissions" width="100%"> 
+<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/snowflake_permisisons.PNG" alt="Snowflake Permissions" width="100%"> 
 <figcaption>TVSHOW Snowflake Permissions</figcaption>
 </figure>
 
 Once that is setup, we test both the user permission with the logging into Snowflake and verify access.
-Returning to Airbyte, we setup Snowflake as the source with the Airbyte user credentials created earlier on Snowflake, then connect Source (Airbyte) and Destination (Snowflake). 
+Returning to Airbyte, we setup Snowflake as the destination with the Airbyte user credentials created earlier on Snowflake, then connect Source (Airbyte) and Destination (Snowflake). 
 
 <figure> 
 <img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/airbyte_interface.png" alt="Airbyte Interface" width="100%"> 
@@ -204,7 +203,7 @@ Returning to Airbyte, we setup Snowflake as the source with the Airbyte user cre
 Upon successful Sync, response from API call are ingested into Snowflake's storage on the backend.
 
 <figure> 
-<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/snowflake_tvshows.png" alt="Snowflake TVSHOW" width="100%"> 
+<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/snowflake_tvshows.PNG" alt="Snowflake TVSHOW" width="100%"> 
 <figcaption>TVSHOW database structure</figcaption>
 </figure>
 </p>
@@ -217,7 +216,7 @@ Upon successful Sync, response from API call are ingested into Snowflake's stora
 <p align="justify"> 
 All transformations are done using dbt. We have created 3 staging tables and 5 serving tables. 
 Models are written in SQL and can be found in the <a href="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/data-transformation/dbt/tvmaze/models">dbt\tvmaze\models</a> folder.
-We've built the dbt docker image, upload onto ECR and run the instance with EC2. All credentials are hosted on S3.
+We've built the dbt docker image, upload onto ECR and run the instance with EC2. All credentials are hosted on S3 in an .env file.
 
 <figure> 
 <img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/dbt_success.png" alt="Successful dbt run" width="100%"> 
@@ -228,7 +227,7 @@ We've built the dbt docker image, upload onto ECR and run the instance with EC2.
 <ul>
 <li>Renaming - renaming certain column headers to avoid confusion</li>
 <li>Data type casting - date string to date type, IDs into integers</li>
-<li>Unions - Joins on multiple tables for the staging and serving tables</li>
+<li>Joins - Joins on multiple tables for the staging and serving tables</li>
 <li>Aggregation function - avg() for ratings, rank() for ratings, count() number of shows</li>
 <li>Data Cleaning - Nested replace() for Genres and Days </li>
 <li>Filtering - where claused used to get show types with best rating.</li>
@@ -244,7 +243,7 @@ We've built the dbt docker image, upload onto ECR and run the instance with EC2.
 Our ELTL process is ochestrated with a local version of Airflow. Our DAGS include a SlackWebhookOperator which is positioned at the start and end of the "ETL" process.
 For the AirbyteTriggerSyncOperator, we had to setup 2 connection ids for the task - `airflow_airbyte_conn_id` and `airbyte_tvmazeapisf_conn_id`. This is for the ingestion of the data from the TV MAZE API to our datawarehouse on Snowflake. Then we setup the ECSOperator to trigger the dbt image which is hosted on ECR. For this, we needed the `aws-login-for-ecs-task`.
 <figure> 
-<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/dags_connjson.png" alt="aws-login-for-ecs-task" width="100%"> 
+<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/dags_connjson.PNG" alt="aws-login-for-ecs-task" width="100%"> 
 <figcaption>conn.json for ECSOperator</figcaption>
 </figure>
 </p>
@@ -264,7 +263,7 @@ Current iteration Airbyte and dbt docker images are built and pushed onto ECR an
 <ul> 
  <li>How to pronounce the word Genre
   <figure> 
-<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/pronouncingGenre.png" alt="Pronouncing Genre" width="100%"> 
+<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/pronouncingGenre.PNG" alt="Pronouncing Genre" width="100%"> 
 <figcaption>Sounds like "Zhon-Ruh"</figcaption>
 </figure>
   </li>
@@ -272,15 +271,19 @@ Current iteration Airbyte and dbt docker images are built and pushed onto ECR an
   the original codes from class reference the response in square brackets, ours didnt need that as it is already in a json object. </li>
   <li>When Implementing schemas for custom connector on Airbyte, each objects require a type (as object) and each type would have its own properties that can contain 
   the "columns" with their own type and properties.</li>
-  <li>When shutting down the EC2 instance for Airbyte , use `sudo service docker status` to check and restart docker if needed.</li>
+  <li>When starting an Airbyte EC2 instance following a non-graceful shutdown , use `sudo service docker status` to check if the docker daemon is running before running `docker-compose up -d`</li>
+  <li>To avoid the above, run `sudo systemctl enable docker` to enable the docker daemon to auto start on boot and when your container is running, run `docker update --restart unless-stopped $(docker ps -q)` to ensure your airbyte container will auto start on the next reboot.</li>
   <li><i>"When it's curly braces it's an Object, if it's a square bracket it's a List"</i> - Luke, 2022</li>
+  <li>For Snowflake permission, being the owner of the Database does not automatically grant access rights.
+  <figure> 
+<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/wordsofwisdom(snowflake).PNG" alt="Snowflake permission" width="100%"> 
+</figure>
+  </li>
   <li>When creating the custom connector, discovered that a Python Class name cannot be too long. Originally we had TV_MAZE_API as a class and that did not work, had to change it to just TVMAZE</li>
   <li>When experimenting and working with Airflow, definitely export all connectors first and delete everything that is not the DAG folder to save setup time.</li>
   <li>Create Airbyte Custom Connector Test and make use of dbt Macros</li>  
   <li>To improve the ETL notification messages - More unique and cater for failed pipeline.</li>
-  <li>Airbyte connector keeps increasing by the day, did not realised that there is already a TVMaze connector in Alpha, we built one anyways!</li>
- 
-  <li></li>
+  <li>As New Airbyte connectors are regularly being added, did not realised that there is already a TVMaze connector in Alpha, we built one anyways!</li>
 </ul>
 
 </p>
@@ -321,7 +324,5 @@ Current iteration Airbyte and dbt docker images are built and pushed onto ECR an
 
 <i>All Team members partook on the development,cross check and supplied content for project documentation. </i>
 <i>This was the Second project for the ETL part of the course in the <a href="https://www.dataengineercamp.com">Data Engineering Camp</a>.</i> <br>
-
-
 
 <a href="#top"> Go back up🔼</a>
