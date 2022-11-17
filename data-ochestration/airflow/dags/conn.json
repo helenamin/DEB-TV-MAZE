@@ -12,12 +12,12 @@
   "aws-login-for-ecs-task": {
     "conn_type": "aws",
     "description": "",
-    "login": "AKIA4OQ5AI2YYRN2535L",
-    "password": "wuS6cgdRq4V1d8bg5kmKHZ/3+XOHQ7OEhYdnV4rw",
+    "login": "YOUR AWS LOGIN HERE",
+    "password": "YOUR AWSPASSWORD HERE",
     "host": "",
     "port": null,
     "schema": "",
-    "extra": "{\"region_name\": \"ap-southeast-2\"}"
+    "extra": "{\"region_name\": \"YOUR AWS REGION HERE\"}"
   },
   "aws_default": {
     "conn_type": "aws",
