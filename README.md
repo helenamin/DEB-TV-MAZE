@@ -7,9 +7,9 @@
 <!-- Project Background -->
 
 <h2 id="background">Project Background</h2>
-<figure>
-  <img src="https://media.istockphoto.com/photos/man-watching-tv-lying-on-sofa-legs-on-table-picture-id1331523088?b=1&k=20&m=1331523088&s=170667a&w=0&h=YnmsLqGLdmntesnGiIzBrbhXDxNbHiOzrbudKivWet4=" align="center" alt="Watch TV" width="60%" height="60%">        
-</figure>
+<p align="center">
+ <img src="https://media.istockphoto.com/photos/man-watching-tv-lying-on-sofa-legs-on-table-picture-id1331523088?b=1&k=20&m=1331523088&s=170667a&w=0&h=YnmsLqGLdmntesnGiIzBrbhXDxNbHiOzrbudKivWet4=" alt="Watch TV" width="60%" height="60%">
+</p>
 
 <p align="justify"> 
   TV show data extracted from <a href="https://www.tvmaze.com/">TV Maze API</a> for Data Analyst to identify and visualize trends in TV history 
@@ -203,7 +203,7 @@ Returning to Airbyte, we setup Snowflake as the destination with the Airbyte use
 Upon successful Sync, response from API call are ingested into Snowflake's storage on the backend.
 
 <figure> 
-<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/snowflake_tvshows.PNG" alt="Snowflake TVSHOW" width="100%"> 
+<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/snowflake_tvshows.PNG" alt="Snowflake TVSHOW" width="40%"> 
 <figcaption>TVSHOW database structure</figcaption>
 </figure>
 </p>
@@ -243,7 +243,7 @@ We've built the dbt docker image, upload onto ECR and run the instance with EC2.
 Our ELTL process is ochestrated with a local version of Airflow. Our DAGS include a SlackWebhookOperator which is positioned at the start and end of the "ETL" process.
 For the AirbyteTriggerSyncOperator, we had to setup 2 connection ids for the task - `airflow_airbyte_conn_id` and `airbyte_tvmazeapisf_conn_id`. This is for the ingestion of the data from the TV MAZE API to our datawarehouse on Snowflake. Then we setup the ECSOperator to trigger the dbt image which is hosted on ECR. For this, we needed the `aws-login-for-ecs-task`.
 <figure> 
-<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/dags_connjson.PNG" alt="aws-login-for-ecs-task" width="100%"> 
+<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/dags_connjson.PNG" alt="aws-login-for-ecs-task" width="70%"> 
 <figcaption>conn.json for ECSOperator</figcaption>
 </figure>
 </p>
@@ -262,11 +262,12 @@ Current iteration Airbyte and dbt docker images are built and pushed onto ECR an
 <b>Key Learnings and Room for Improvements:</b> 
 <ul> 
  <li>How to pronounce the word Genre
-  <figure> 
-<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/pronouncingGenre.PNG" alt="Pronouncing Genre" width="100%"> 
-<figcaption>Sounds like "Zhon-Ruh"</figcaption>
-</figure>
   </li>
+    <figure> 
+<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/pronouncingGenre.PNG" alt="Pronouncing Genre" width="20%"> 
+<br>
+<figcaption><i>Sounds like "Zhon-Ruh"</i></figcaption>
+</figure>
   <li>Learned when Implementing the Airbyte Connector, in the "parse_response" function, 
   the original codes from class reference the response in square brackets, ours didnt need that as it is already in a json object. </li>
   <li>When Implementing schemas for custom connector on Airbyte, each objects require a type (as object) and each type would have its own properties that can contain 
