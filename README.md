@@ -120,6 +120,7 @@ pip install -r requirement.txt
 4. To import the "conn.json" file for airflow, use 
 `airflow connection import conn.json`
 
+<i>For detailed guide on how to replicate this project, please refer to <a href="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/Deploy%20tvmaze%20pipeline%20(draft).pdf">this guide</a></i>
 
 
 <hr style="background:#ADD8E6;">
@@ -188,7 +189,7 @@ For the data integration, Airbyte was chosen as the tool for performing extract 
 <br>
 The next step was to create the datawarehouse in Snowflake and apply all corresponding user permissions to Airbyte and dbt. The full SQL query can be viewed <a href="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/data-integration/snowflake/user_role_grants.sql">here </a>
 <figure> 
-<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/snowflake_permisisons.PNG" alt="Snowflake Permissions" width="100%"> 
+<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/snowflake_permissions.PNG" alt="Snowflake Permissions" width="100%"> 
 <figcaption>TVSHOW Snowflake Permissions</figcaption>
 </figure>
 
@@ -248,7 +249,11 @@ For the AirbyteTriggerSyncOperator, we had to setup 2 connection ids for the tas
 </figure>
 </p>
 
-</p>
+<figure> 
+<img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/slack-notification.png" alt="Slack notification" width="70%"> 
+<figcaption>Successfully Integrated Slack Notification on Project channel</figcaption>
+</figure>
+
 
 <hr style="background:#ADD8E6;">
 <!-- RESULTS AND DISCUSSION -->
@@ -279,7 +284,8 @@ Current iteration Airbyte and dbt docker images are built and pushed onto ECR an
   <figure> 
 <img src="https://github.com/LuckyLukeAtGitHub/deb-project2-group2/blob/main/screenshots/wordsofwisdom(snowflake).PNG" alt="Snowflake permission" width="100%"> 
 </figure>
-  </li>
+</li>
+<li>Just by using Snowflake, we do not need to push data onto S3 to get it into Snowflake, data can be pushed directly onto Snowflake.</li>
   <li>When creating the custom connector, discovered that a Python Class name cannot be too long. Originally we had TV_MAZE_API as a class and that did not work, had to change it to just TVMAZE</li>
   <li>When experimenting and working with Airflow, definitely export all connectors first and delete everything that is not the DAG folder to save setup time.</li>
   <li>Create Airbyte Custom Connector Test and make use of dbt Macros</li>  
@@ -326,4 +332,4 @@ Current iteration Airbyte and dbt docker images are built and pushed onto ECR an
 <i>All Team members partook on the development,cross check and supplied content for project documentation. </i>
 <i>This was the Second project for the ETL part of the course in the <a href="https://www.dataengineercamp.com">Data Engineering Camp</a>.</i> <br>
 
-<a href="#top"> Go back up🔼</a>
+<a href="#top">GO ⬆</h1></a>
